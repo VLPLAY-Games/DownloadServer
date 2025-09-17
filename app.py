@@ -71,7 +71,7 @@ class DownloadTask:
                 with open(self.filename, 'wb') as file:
                     start_time = time.time()
                     
-                    for chunk in response.iter_content(chunk_size=8192):
+                    for chunk in response.iter_content(chunk_size=65536):
                         if self.stop_requested:
                             break
                             
