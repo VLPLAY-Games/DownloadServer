@@ -76,7 +76,6 @@ function updateProgress(taskId) {
         });
 }
 
-
 function startProgressUpdate(taskId) {
     if (progressTimers[taskId]) {
         clearInterval(progressTimers[taskId]);
