@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Download Manager</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>📥 Download Manager</h1>
+        
+        <div class="add-form">
+            <form method="POST">
+                <input type="url" name="url" placeholder="Enter URL to download" required>
+                <button type="submit">Add Download Task</button>
+            </form>
+        </div>
+
+        <h2>📋 Active Tasks ({{ tasks|length }})</h2>
+        
+        {% if tasks %}
+            <div id="tasks">
+                {% for task_id, task in tasks.items() %}
+                <div class="task {{ task.status }}" id="task-{{ task_id }}">
+                    <div class="task-info">
+                        <strong>🔗 URL:</strong> {{ task.url }}<br>
+                        <strong>📊 Status:</strong> 
+                        <span class="status-badge status-{{ task.status }}">
+                            {{ task.status }}
+                        </span><br>
+                        {% if task.filename %}
+                        <strong>💾 File:</strong> {{ task.filename.split('/')[-1] }}<br>
+                        {% endif %}
+                        
+                        {% if task.status == 'downloading' or task.status == 'paused' %}
+                        <div class="progress-container">
+                            <div class="progress-bar" id="progress-{{ task_id }}" style="width: 0%;">
+                                0%
+                            </div>
+                        </div>
+                        <div class="progress-info">
+                            <span id="size-{{ task_id }}">0 B / 0 B</span>
+                            <span class="speed-info" id="speed-{{ task_id }}">0 KB/s</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="task-actions">
+                        <form method="POST" action="/control">
+                            <input type="hidden" name="id" value="{{ task_id }}">
+                            {% if task.status == 'downloading' %}
+                            <button type="submit" name="action" value="pause" class="btn btn-pause">⏸️ Pause</button>
+                            {% elif task.status == 'paused' %}
+                            <button type="submit" name="action" value="resume" class="btn btn-resume">▶️ Resume</button>
+                            {% endif %}
+                            <button type="submit" name="action" value="restart" class="btn btn-restart">🔄 Restart</button>
+                            <button type="submit" name="action" value="delete" class="btn btn-delete">🗑️ Delete</button>
+                            
+                            {% if task.status == 'completed' %}
+                            <a href="/download/{{ task_id }}" class="btn btn-download">⬇️ Download</a>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No active download tasks. Add a URL to start downloading.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
