@@ -157,8 +157,6 @@ class DownloadTask:
     def pause(self):
         if self.status == "downloading":
             self.status = "paused"
-            if self.process:
-                self.process.terminate()
             logging.info(f"Download paused: {self.url}")
 
     def resume(self):

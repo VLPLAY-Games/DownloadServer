@@ -15,26 +15,28 @@ function updateProgress(taskId) {
             return response.json();
         })
         .then(data => {
+            const taskElement = document.getElementById(`task-${taskId}`);
+            if (!taskElement) return;
+
             const progressBar = document.getElementById(`progress-${taskId}`);
             const sizeInfo = document.getElementById(`size-${taskId}`);
             const speedInfo = document.getElementById(`speed-${taskId}`);
-            const taskElement = document.getElementById(`task-${taskId}`);
-            const statusBadge = taskElement?.querySelector('.status-badge');
-            
+            const statusBadge = taskElement.querySelector('.status-badge');
+
             if (progressBar && data.progress !== undefined) {
                 progressBar.style.width = `${data.progress}%`;
                 progressBar.textContent = `${data.progress}%`;
             }
-            
+
             if (sizeInfo && data.downloaded !== undefined && data.total !== undefined) {
                 sizeInfo.textContent = `${data.downloaded} / ${data.total}`;
             }
-            
+
             if (speedInfo && data.speed !== undefined) {
                 speedInfo.textContent = data.speed;
             }
-            
-            if (taskElement && data.status) {
+
+            if (data.status) {
                 taskElement.className = taskElement.className.replace(
                     /\b(queued|downloading|paused|completed|error)\b/g, ''
                 ).trim();
@@ -48,8 +50,23 @@ function updateProgress(taskId) {
                     statusBadge.className += ' status-badge status-' + data.status;
                 }
             }
-            
-            if (data.status === 'completed' || data.status === 'error') {
+
+            // динамически создаём кнопку Download, если задача завершена
+            if (data.status === 'completed') {
+                let downloadBtn = taskElement.querySelector('.btn-download');
+                if (downloadBtn) {
+                    downloadBtn.href = `/download/${taskId}`;
+                    downloadBtn.style.display = 'inline-block';
+                }
+                let pauseBtn = taskElement.querySelector('.btn-pause');
+                if (pauseBtn) {
+                    pauseBtn.style.display = 'none';
+                }
+                clearInterval(progressTimers[taskId]);
+                delete progressTimers[taskId];
+            }
+
+            if (data.status === 'error') {
                 clearInterval(progressTimers[taskId]);
                 delete progressTimers[taskId];
             }
@@ -58,6 +75,7 @@ function updateProgress(taskId) {
             console.error('Error updating progress for task', taskId, ':', error);
         });
 }
+
 
 function startProgressUpdate(taskId) {
     if (progressTimers[taskId]) {

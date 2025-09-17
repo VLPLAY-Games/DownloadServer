@@ -55,11 +55,13 @@
                             {% endif %}
                             <button type="submit" name="action" value="restart" class="btn btn-restart">🔄 Restart</button>
                             <button type="submit" name="action" value="delete" class="btn btn-delete">🗑️ Delete</button>
-                            
-                            {% if task.status == 'completed' %}
-                            <a href="/download/{{ task_id }}" class="btn btn-download">⬇️ Download</a>
-                            {% endif %}
                         </form>
+
+                        {% if task.status == 'completed' %}
+                            <a href="/download/{{ task_id }}" class="btn btn-download">⬇️ Download</a>
+                        {% else %}
+                            <a href="/download/{{ task_id }}" class="btn btn-download" style="display:none;">⬇️ Download</a>
+                        {% endif %}
                     </div>
                 </div>
                 {% endfor %}

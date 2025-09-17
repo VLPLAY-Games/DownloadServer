@@ -76,7 +76,7 @@ button[type="submit"]:hover {
 .btn-resume { background-color: #28a745; color: white; }
 .btn-restart { background-color: #17a2b8; color: white; }
 .btn-delete { background-color: #dc3545; color: white; }
-.btn-download { background-color: #28a745; color: white; }
+.btn-download { background-color: #28a745; color: white; margin-left: auto;}
 .btn:hover {
     opacity: 0.8;
 }
