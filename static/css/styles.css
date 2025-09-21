@@ -3,7 +3,7 @@ body {
     margin: 20px; 
     background-color: #f5f5f5;
 }
-.container {
+.container, header {
     max-width: 1000px;
     margin: 0 auto;
     background: white;
@@ -11,7 +11,20 @@ body {
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
+
+header {
+    float: right;
+}
+
+header a {
+    background-color: lightgray;
+}
+header a:hover {
+    background-color: rgb(230, 230, 230);
+}
+
 h1 {
+
     color: #333;
     text-align: center;
 }
@@ -139,4 +152,29 @@ button[type="submit"]:hover {
     font-size: 12px;
     float: right;
     background-color: #99FFFF;
+}
+
+.language-dropdown-content {
+    display: none;
+    position: absolute;
+    padding-top: 15px;
+    min-width: 80px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.language-dropdown-content button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    text-align: left;
+}
+
+.language-dropdown:hover .language-dropdown-content {
+    display: block;
+}
+
+.language-dropdown {
+    position: relative;
+    display: inline-block;
 }

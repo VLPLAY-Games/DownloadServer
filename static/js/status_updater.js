@@ -40,14 +40,14 @@ function updateProgress(taskId) {
                 taskElement.className = taskElement.className.replace(
                     /\b(queued|downloading|paused|completed|error)\b/g, ''
                 ).trim();
-                taskElement.className += ' task ' + data.status;
+                taskElement.className = ' task ' + data.status;
 
                 if (statusBadge) {
                     statusBadge.textContent = data.status;
                     statusBadge.className = statusBadge.className.replace(
                         /\bstatus-(queued|downloading|paused|completed|error)\b/g, ''
                     ).trim();
-                    statusBadge.className += ' status-badge status-' + data.status;
+                    statusBadge.className = ' status-badge status-' + data.status;
                 }
             }
 
