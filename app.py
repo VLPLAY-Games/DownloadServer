@@ -2,7 +2,7 @@ import os
 import logging
 import threading
 from flask import Flask, request, render_template, redirect, send_file, jsonify
-from download import DownloadTask
+from backend.download import DownloadTask
 
 logging.basicConfig(level=logging.INFO)
 app = Flask(__name__)

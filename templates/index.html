@@ -3,7 +3,8 @@
 <head>
     <title data-translate="site_title">Download Manager</title>
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='icons/favicon.ico') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
     <script src="{{ url_for('static', filename='js/translation_main.js') }}"></script>
     <script src="{{ url_for('static', filename='js/language.js') }}"></script>
     <script src="{{ url_for('static', filename='js/status_updater.js') }}"></script>
@@ -22,14 +23,13 @@
             </div>
             <a class="help_but" data-translate="help_button" onclick="showHelp()">Help</a>
 
-            <dialog id="help-dialog" style="border-radius: 12px; padding: 0; width: 80%; max-width: 600px; max-height: 80vh;">
-                <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 1px solid #eee; background: #f8f9fa;">
-                    <h2 style="margin: 0; font-size: 1.5em;" data-translate="help_title">Help</h2>
-                    <button onclick="document.getElementById('help-dialog').close()" 
-                            style="background: none; border: none; font-size: 1.5em; cursor: pointer;">×</button>
+            <dialog id="help-dialog" class="help-dialog">
+                <div class="help-dialog-header">
+                    <h2 class="help-dialog-title" data-translate="help_title">Help</h2>
+                    <button onclick="hideHelp()" class="help-dialog-close">X</button>
                 </div>
                 
-                <div style="padding: 20px; overflow-y: auto; max-height: calc(80vh - 70px);">
+                <div class="help-dialog-body">
                     <h3 data-translate="help_features_title">🎯 Key Features</h3>
                     <p data-translate="help_feature1">File Upload - Paste a link into the input field and click "Add Task"</p>
                     <p data-translate="help_feature2">Download Management - Use the Pause/Resume, Restart, Delete buttons</p>
@@ -74,7 +74,11 @@
             Link copied!
         </div>
         
-        <h2 data-translate="active_tasks">📋 Active Tasks ({{ tasks|length }})</h2>
+        <div class="active_tasks">
+            <h2 data-translate="active_tasks">📋 Active Tasks</h2>
+            <h2>({{ tasks|length }})</h2>
+        </div>
+        
         
         {% if tasks %}
             <div id="tasks">

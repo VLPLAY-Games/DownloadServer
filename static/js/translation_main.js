@@ -87,11 +87,6 @@ const translations = {
             'en': 'No active download tasks. Add a URL to start downloading.',
             'ru': 'Нет активных задач. Добавьте URL, чтобы начать загрузку.'
         },
-
-
-
-
-
         'help_title': {
             'en': 'Help',
             'ru': 'Помощь'
