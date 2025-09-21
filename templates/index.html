@@ -16,6 +16,10 @@
             </form>
         </div>
 
+        <div id="copy-tooltip" class="copy_link">
+            Link copied!
+        </div>
+        
         <h2>📋 Active Tasks ({{ tasks|length }})</h2>
         
         {% if tasks %}
@@ -23,7 +27,7 @@
                 {% for task_id, task in tasks.items() %}
                 <div class="task {{ task.status }}" id="task-{{ task_id }}">
                     <div class="task-info">
-                        <strong>🔗 URL:</strong> {{ task.url }}<br>
+                        <strong>🔗 URL:</strong> <span id="link" onclick="link_copy(event)" style="cursor: pointer;">{{ task.url }}</span><br>
                         <strong>📊 Status:</strong> 
                         <span class="status-badge status-{{ task.status }}">
                             {{ task.status }}

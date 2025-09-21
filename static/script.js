@@ -95,3 +95,38 @@ function startAllProgressUpdates() {
 document.addEventListener('DOMContentLoaded', function() {
     setTimeout(startAllProgressUpdates, 100);
 });
+
+
+const unsecuredCopyToClipboard = (text) => { const textArea = document.createElement("textarea"); textArea.value=text; document.body.appendChild(textArea); textArea.focus();textArea.select(); try{document.execCommand('copy')}catch(err){console.error('Unable to copy to clipboard',err)}document.body.removeChild(textArea)};
+
+const copyToClipboard = (content) => {
+  if (window.isSecureContext && navigator.clipboard) {
+    navigator.clipboard.writeText(content);
+  } else {
+    unsecuredCopyToClipboard(content);
+  }
+};
+
+
+function link_copy(event) {
+    var url_text = document.getElementById("link").textContent;
+    const tooltip = document.getElementById("copy-tooltip");
+    
+    try {
+        copyToClipboard(url_text);
+        
+        // Позиционируем тултип рядом с курсором
+        tooltip.style.left = (event.clientX + 10) + 'px';
+        tooltip.style.top = (event.clientY + 10) + 'px';
+        tooltip.style.display = 'block';
+        
+        // Прячем через секунду
+        setTimeout(() => {
+            tooltip.style.display = 'none';
+        }, 1000);
+        
+        console.log('Content copied to clipboard');
+    } catch (err) {
+        console.error('Failed to copy: ', err);
+    }
+}
