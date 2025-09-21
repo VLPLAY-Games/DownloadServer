@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Download Manager</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='icons/favicon.ico') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </head>
@@ -27,7 +28,15 @@
                 {% for task_id, task in tasks.items() %}
                 <div class="task {{ task.status }}" id="task-{{ task_id }}">
                     <div class="task-info">
-                        <strong>🔗 URL:</strong> <span id="link" onclick="link_copy(event)" style="cursor: pointer;">{{ task.url }}</span><br>
+                        <strong>🔗 URL:</strong> 
+                        <span id="link-full" style="display: none; cursor: pointer;" onclick="link_copy(event)">{{ task.url }}</span>
+                        <span id="link-display" style="cursor: pointer;" data-short="{{ task.url.split('/')[2] }}/.../{{ task.filename.split('/')[-1] }}" onclick="link_copy(event)">
+                            {{ task.url.split('/')[2] }}/.../{{ task.filename.split('/')[-1] }}
+                        </span>
+                        <button onclick="toggleLink()" class="toggleLink">
+                            📏 Show full link
+                        </button>
+                        <br>
                         <strong>📊 Status:</strong> 
                         <span class="status-badge status-{{ task.status }}">
                             {{ task.status }}

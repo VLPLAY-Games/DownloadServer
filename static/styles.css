@@ -132,3 +132,11 @@ button[type="submit"]:hover {
     z-index: 1000; 
     pointer-events: none;
 }
+
+.toggleLink {
+    margin-left: 10px; 
+    padding: 2px 8px; 
+    font-size: 12px;
+    float: right;
+    background-color: #99FFFF;
+}

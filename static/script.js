@@ -108,19 +108,37 @@ const copyToClipboard = (content) => {
 };
 
 
+let isFullLink = false;
+
+function toggleLink() {
+    const fullLink = document.getElementById("link-full").textContent;
+    const displayElement = document.getElementById("link-display");
+    const shortLink = displayElement.getAttribute('data-short');
+    const button = event.target;
+    
+    if (!isFullLink) {
+        // Показываем полную ссылку
+        displayElement.textContent = fullLink;
+        button.textContent = "📏 Show short link";
+    } else {
+        // Показываем короткую ссылку
+        displayElement.textContent = shortLink;
+        button.textContent = "📏 Show full link";
+    }
+    
+    isFullLink = !isFullLink;
+}
+
+
 function link_copy(event) {
-    var url_text = document.getElementById("link").textContent;
+    var full_url = document.getElementById("link-full").textContent;
     const tooltip = document.getElementById("copy-tooltip");
     
     try {
-        copyToClipboard(url_text);
-        
-        // Позиционируем тултип рядом с курсором
+        copyToClipboard(full_url);
         tooltip.style.left = (event.clientX + 10) + 'px';
         tooltip.style.top = (event.clientY + 10) + 'px';
         tooltip.style.display = 'block';
-        
-        // Прячем через секунду
         setTimeout(() => {
             tooltip.style.display = 'none';
         }, 1000);
