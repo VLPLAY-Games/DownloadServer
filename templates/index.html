@@ -13,15 +13,38 @@
 <body>
     <header>
         <div>
-            <a class="account_but" data-translate="account_button">Account</a>
+            <!-- Обновленные кнопки аккаунта -->
+            {% if session.get('username') %}
+            <div class="account-dropdown">
+                <button id="accountToggle" class="account_but" type="button" aria-haspopup="true" aria-expanded="false"
+                        onclick="document.getElementById('accountMenu').classList.toggle('show');">
+                    👤 {{ session.get('username') }}
+                </button>
+                <div id="accountMenu" class="account-dropdown-content" role="menu" aria-hidden="true">
+                    <a href="{{ url_for('logout') }}" role="menuitem" data-translate="logout_button">🚪 Logout</a>
+                </div>
+            </div>
+            {% else %}
+            <div class="account-dropdown">
+                <button id="accountToggle" class="account_but" type="button" aria-haspopup="true" aria-expanded="false"
+                        onclick="document.getElementById('accountMenu').classList.toggle('show');">
+                    👤 <span data-translate="account_button">Account</span>
+                </button>
+                <div id="accountMenu" class="account-dropdown-content" role="menu" aria-hidden="true">
+                    <a href="{{ url_for('login') }}" role="menuitem" data-translate="login_button">🔐 Login</a>
+                    <a href="{{ url_for('register') }}" role="menuitem" data-translate="register_button">📝 Register</a>
+                </div>
+            </div>
+            {% endif %}
+
             <div class="language-dropdown">
-                <a class="language_but" data-translate="language_button">Language</a>
+                <a class="language_but" data-translate="language_button">🌐 Language</a>
                 <div class="language-dropdown-content">
                     <button id="switchToEnglish" class="switchToEnglishBut" data-translate="english_button">English</button>
                     <button id="switchToRussian" class="switchToRussianBut" data-translate="russian_button">Русский</button>
                 </div>
             </div>
-            <a class="help_but" data-translate="help_button" onclick="showHelp()">Help</a>
+            <a class="help_but" data-translate="help_button" onclick="showHelp()">❓ Help</a>
 
             <dialog id="help-dialog" class="help-dialog">
                 <div class="help-dialog-header">
@@ -63,81 +86,104 @@
     <div class="container">
         <h1 data-translate="main_title">📥 Download Manager</h1>
         
-        <div class="add-form">
-            <form method="POST">
-                <input type="url" name="url" data-translate-placeholder="url_placeholder" placeholder="Enter URL to download" required>
-                <button type="submit" data-translate="add_task_button">Add Download Task</button>
-            </form>
-        </div>
-
-        <div id="copy-tooltip" class="copy_link" data-translate="copy_tooltip">
-            Link copied!
-        </div>
-        
-        <div class="active_tasks">
-            <h2 data-translate="active_tasks">📋 Active Tasks</h2>
-            <h2>({{ tasks|length }})</h2>
-        </div>
-        
-        
-        {% if tasks %}
-            <div id="tasks">
-                {% for task_id, task in tasks.items() %}
-                <div class="task {{ task.status }}" id="task-{{ task_id }}">
-                    <div class="task-info">
-                        <strong data-translate="url_label">🔗 URL:</strong> 
-                        <span id="link-full" style="display: none; cursor: pointer;" onclick="link_copy(event)">{{ task.url }}</span>
-                        <span id="link-display" style="cursor: pointer;" data-short="{{ task.url.split('/')[2] }}/.../{{ task.filename.split('/')[-1] }}" onclick="link_copy(event)">
-                            {{ task.url.split('/')[2] }}/.../{{ task.filename.split('/')[-1] }}
-                        </span>
-                        <button onclick="toggleLink()" class="toggleLink" data-translate="toggle_link_button">
-                            📏 Show full link
-                        </button>
-                        <br>
-                        <strong data-translate="status_label">📊 Status:</strong> 
-                        <span class="status-badge status-{{ task.status }}">
-                            {{ task.status }}
-                        </span><br>
-                        {% if task.filename %}
-                        <strong data-translate="file_label">💾 File:</strong> {{ task.filename.split('/')[-1] }}<br>
-                        {% endif %}
-                        
-                        {% if task.status == 'downloading' or task.status == 'paused' %}
-                        <div class="progress-container">
-                            <div class="progress-bar" id="progress-{{ task_id }}" style="width: 0%;">
-                                0%
-                            </div>
-                        </div>
-                        <div class="progress-info">
-                            <span id="size-{{ task_id }}">0 B / 0 B</span>
-                            <span class="speed-info" id="speed-{{ task_id }}">0 KB/s</span>
-                        </div>
-                        {% endif %}
-                    </div>
-                    
-                    <div class="task-actions">
-                        <form method="POST" action="/control">
-                            <input type="hidden" name="id" value="{{ task_id }}">
-                            {% if task.status == 'downloading' %}
-                            <button type="submit" name="action" value="pause" class="btn btn-pause" data-translate="pause_button">⏸️ Pause</button>
-                            {% elif task.status == 'paused' %}
-                            <button type="submit" name="action" value="resume" class="btn btn-resume" data-translate="resume_button">▶️ Resume</button>
-                            {% endif %}
-                            <button type="submit" name="action" value="restart" class="btn btn-restart" data-translate="restart_button">🔄 Restart</button>
-                            <button type="submit" name="action" value="delete" class="btn btn-delete" data-translate="delete_button">🗑️ Delete</button>
-                        </form>
-
-                        {% if task.status == 'completed' %}
-                            <a href="/download/{{ task_id }}" class="btn btn-download" data-translate="download_button">⬇️ Download</a>
-                        {% else %}
-                            <a href="/download/{{ task_id }}" class="btn btn-download" style="display:none;" data-translate="download_button">⬇️ Download</a>
-                        {% endif %}
-                    </div>
+        <!-- Flash сообщения -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Форма добавления URL (только для авторизованных) -->
+        {% if 'username' in session %}
+            <div class="add-form">
+                <form method="POST">
+                    <input type="url" name="url" data-translate-placeholder="url_placeholder" placeholder="Enter URL to download" required>
+                    <button type="submit" data-translate="add_task_button">Add Download Task</button>
+                </form>
             </div>
+
+            <div id="copy-tooltip" class="copy_link" data-translate="copy_tooltip">
+                Link copied!
+            </div>
+            
+            <div class="active_tasks">
+                <h2 data-translate="active_tasks">📋 Active Tasks</h2>
+                <h2>({{ tasks|length }})</h2>
+            </div>
+            
+            {% if tasks %}
+                <div id="tasks">
+                    {% for task_id, task in tasks.items() %}
+                    <div class="task {{ task.status }}" id="task-{{ task_id }}">
+                        <div class="task-info">
+                            <strong data-translate="url_label">🔗 URL:</strong> 
+                            <span id="link-full" style="display: none; cursor: pointer;" onclick="link_copy(event)">{{ task.url }}</span>
+                            <span id="link-display" style="cursor: pointer;" data-short="{{ task.url.split('/')[2] }}/.../{{ task.filename.split('/')[-1] }}" onclick="link_copy(event)">
+                                {{ task.url.split('/')[2] }}/.../{{ task.filename.split('/')[-1] }}
+                            </span>
+                            <button onclick="toggleLink()" class="toggleLink" data-translate="toggle_link_button">
+                                📏 Show full link
+                            </button>
+                            <br>
+                            <strong data-translate="status_label">📊 Status:</strong> 
+                            <span class="status-badge status-{{ task.status }}">
+                                {{ task.status }}
+                            </span><br>
+                            {% if task.filename %}
+                            <strong data-translate="file_label">💾 File:</strong> {{ task.filename.split('/')[-1] }}<br>
+                            {% endif %}
+                            
+                            {% if task.status == 'downloading' or task.status == 'paused' %}
+                            <div class="progress-container">
+                                <div class="progress-bar" id="progress-{{ task_id }}" style="width: 0%;">
+                                    0%
+                                </div>
+                            </div>
+                            <div class="progress-info">
+                                <span id="size-{{ task_id }}">0 B / 0 B</span>
+                                <span class="speed-info" id="speed-{{ task_id }}">0 KB/s</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="task-actions">
+                            <form method="POST" action="/control">
+                                <input type="hidden" name="id" value="{{ task_id }}">
+                                {% if task.status == 'downloading' %}
+                                <button type="submit" name="action" value="pause" class="btn btn-pause" data-translate="pause_button">⏸️ Pause</button>
+                                {% elif task.status == 'paused' %}
+                                <button type="submit" name="action" value="resume" class="btn btn-resume" data-translate="resume_button">▶️ Resume</button>
+                                {% endif %}
+                                <button type="submit" name="action" value="restart" class="btn btn-restart" data-translate="restart_button">🔄 Restart</button>
+                                <button type="submit" name="action" value="delete" class="btn btn-delete" data-translate="delete_button">🗑️ Delete</button>
+                            </form>
+
+                            {% if task.status == 'completed' %}
+                                <a href="/download/{{ task_id }}" class="btn btn-download" data-translate="download_button">⬇️ Download</a>
+                            {% else %}
+                                <a href="/download/{{ task_id }}" class="btn btn-download" style="display:none;" data-translate="download_button">⬇️ Download</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p data-translate="no_tasks_message">No active download tasks. Add a URL to start downloading.</p>
+            {% endif %}
         {% else %}
-            <p data-translate="no_tasks_message">No active download tasks. Add a URL to start downloading.</p>
+            <!-- Сообщение для неавторизованных пользователей -->
+            <div class="auth-required">
+                <h2 data-translate="auth_required_title">🔐 Authentication Required</h2>
+                <p data-translate="auth_required_message">Please log in or register to use the download manager.</p>
+                <div class="auth-buttons">
+                    <a href="/login" class="btn btn-primary" data-translate="login_button">Login</a>
+                    <a href="/register" class="btn btn-secondary" data-translate="register_button">Register</a>
+                </div>
+            </div>
         {% endif %}
     </div>
 </body>

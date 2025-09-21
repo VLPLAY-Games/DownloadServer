@@ -154,129 +154,114 @@ button[type="submit"]:hover {
     background-color: #99FFFF;
 }
 
-.language-dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.language-dropdown-content {
-    display: none;
-    position: absolute;
-    right: 0;
-    top: calc(100% + 20px);
-    min-width: 120px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
-    z-index: 1000;
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: all 0.3s ease;
-    overflow: hidden;
-}
-
-.language-dropdown::after {
-    content: '';
-    position: absolute;
-    bottom: -20px;
-    left: 0;
-    width: 100%;
-    height: 25px;
-    background: transparent;
-    pointer-events: all;
-}
-
-.language-dropdown:hover::after {
-    pointer-events: all;
-}
-
-.language-dropdown-content button {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    width: 100%;
-    padding: 14px 16px;
-    text-align: left;
-    border: none;
-    background: none;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-size: 14px;
-    color: #333;
-    border-bottom: 1px solid #f0f0f0;
-}
-
-.language-dropdown-content button:last-child {
-    border-bottom: none;
-}
-
-.language-dropdown-content button:hover {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    transform: translateX(4px);
-}
-
-.language-dropdown-content button:active {
-    transform: translateX(2px) scale(0.98);
-}
-
-.language-dropdown:hover .language-dropdown-content {
-    display: block;
-    opacity: 1;
-    transform: translateY(0);
-}
-
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px) scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-.language-dropdown:hover .language-dropdown-content {
-    animation: slideIn 0.3s ease-out forwards;
-}
-
-
-.help-dialog {
-    border-radius: 12px; 
-    padding: 0; 
-    width: 35%;
-}
-
-.help-dialog-header {
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    padding: 15px 20px; 
-    border-bottom: 1px solid #eee; 
-    background: #f8f9fa;
-}
-.help-dialog-title {
-    margin: 0; 
-    font-size: 1.5em;
-}
-
-.help-dialog-close {
-    background: none; 
-    border: none; 
-    font-size: 1.5em; 
-    cursor: pointer;
-}
-
-.help-dialog-body {
-    padding: 20px; 
-    overflow-y: auto; 
-    max-height: calc(80vh - 70px);
-}
-
 .active_tasks {
     display: flex; 
     align-items: baseline; 
     gap: 8px;
+}
+
+
+.auth-required {
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 15px;
+    color: white;
+    margin: 30px 0;
+}
+
+.auth-required h2 {
+    margin-bottom: 20px;
+    font-size: 2em;
+}
+
+.auth-required p {
+    margin-bottom: 30px;
+    font-size: 1.2em;
+    opacity: 0.9;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+}
+
+.btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+}
+
+/* Кнопка выхода */
+.btn-logout {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s;
+    font-size: 14px;
+}
+
+.btn-logout:hover {
+    background: linear-gradient(135deg, #c0392b 0%, #a93226 100%);
+    transform: translateY(-1px);
+}
+
+/* Информация о пользователе в header */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: #ecf0f1;
+    font-weight: 500;
+}
+
+
+/* Анимации для flash сообщений */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.flash {
+    animation: slideIn 0.3s ease-out;
 }
