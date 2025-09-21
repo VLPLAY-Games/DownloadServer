@@ -4,14 +4,15 @@
     <title data-translate="site_title">Download Manager</title>
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='icons/favicon.ico') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <script src="{{ url_for('static', filename='js/translation.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/translation_main.js') }}"></script>
     <script src="{{ url_for('static', filename='js/language.js') }}"></script>
     <script src="{{ url_for('static', filename='js/status_updater.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/helper.js') }}"></script>
 </head>
 <body>
     <header>
         <div>
-            <a class="profile_but" data-translate="profile_button">Profile</a>
+            <a class="account_but" data-translate="account_button">Account</a>
             <div class="language-dropdown">
                 <a class="language_but" data-translate="language_button">Language</a>
                 <div class="language-dropdown-content">
@@ -19,7 +20,44 @@
                     <button id="switchToRussian" class="switchToRussianBut" data-translate="russian_button">Русский</button>
                 </div>
             </div>
-            <a class="help_but" data-translate="help_button">Help</a>
+            <a class="help_but" data-translate="help_button" onclick="showHelp()">Help</a>
+
+            <dialog id="help-dialog" style="border-radius: 12px; padding: 0; width: 80%; max-width: 600px; max-height: 80vh;">
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 1px solid #eee; background: #f8f9fa;">
+                    <h2 style="margin: 0; font-size: 1.5em;" data-translate="help_title">Help</h2>
+                    <button onclick="document.getElementById('help-dialog').close()" 
+                            style="background: none; border: none; font-size: 1.5em; cursor: pointer;">×</button>
+                </div>
+                
+                <div style="padding: 20px; overflow-y: auto; max-height: calc(80vh - 70px);">
+                    <h3 data-translate="help_features_title">🎯 Key Features</h3>
+                    <p data-translate="help_feature1">File Upload - Paste a link into the input field and click "Add Task"</p>
+                    <p data-translate="help_feature2">Download Management - Use the Pause/Resume, Restart, Delete buttons</p>
+                    <p data-translate="help_feature3">Progress Tracking - Monitor the progress bar and download speed</p>
+                    <p data-translate="help_feature4">File Download - After completion, click the "Download" button</p>
+
+                    <h3 data-translate="help_management_title">🎮 Task Management</h3>
+                    <p>⏸️ <span data-translate="help_pause">Pause - Temporarily suspend the download</span></p>
+                    <p>▶️ <span data-translate="help_resume">Resume - Continue a paused download</span></p>
+                    <p>🔄 <span data-translate="help_restart">Restart - Start the download over</span></p>
+                    <p>🗑️ <span data-translate="help_delete">Delete - Remove the task and the downloaded file</span></p>
+
+                    <h3 data-translate="help_settings_title">⚙️ Settings</h3>
+                    <p>🌐 <span data-translate="help_language">Language - Switch between Russian and English</span></p>
+                    <p>🔐 <span data-translate="help_account">Account - Log in to save download history</span></p>
+                    <p>💾 <span data-translate="help_autosave">Autosave - Tasks are saved even after page reload</span></p>
+
+                    <h3 data-translate="help_faq_title">❓ Frequently Asked Questions</h3>
+                    <p><strong data-translate="help_faq1_question">Q: What file formats are supported?</strong><br>
+                    <span data-translate="help_faq1_answer">A: All formats - video, music, documents, archives</span></p>
+
+                    <p><strong data-translate="help_faq2_question">Q: Maximum file size?</strong><br>
+                    <span data-translate="help_faq2_answer">A: No limits, depends on available server space</span></p>
+
+                    <p><strong data-translate="help_faq3_question">Q: How long are files stored?</strong><br>
+                    <span data-translate="help_faq3_answer">A: Files are stored until you delete them</span></p>
+                </div>
+            </dialog>
         </div>
     </header>
     <div class="container">
