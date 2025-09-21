@@ -1,0 +1,116 @@
+.auth-container {
+    max-width: 420px;
+    margin: 60px auto;
+    padding: 40px 30px;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    text-align: center;
+    animation: slideIn 0.4s ease-out;
+}
+
+.auth-container h1 {
+    font-size: 2em;
+    margin-bottom: 25px;
+    color: #333;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.form-group {
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #444;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: all 0.2s ease;
+}
+
+.form-group input:focus {
+    border-color: #667eea;
+    outline: none;
+    box-shadow: 0 0 6px rgba(102, 126, 234, 0.4);
+}
+
+.auth-form button {
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 12px 0;
+    border-radius: 8px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    border: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(118, 75, 162, 0.3);
+}
+
+.auth-form button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(118, 75, 162, 0.4);
+}
+
+.auth-link {
+    margin-top: 25px;
+    font-size: 14px;
+    color: #555;
+}
+
+.auth-link a {
+    color: #667eea;
+    font-weight: 600;
+    text-decoration: none;
+    margin-left: 6px;
+    transition: color 0.2s ease;
+}
+
+.auth-link a:hover {
+    color: #764ba2;
+}
+
+/* Flash messages внутри форм */
+.flash-messages {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.flash {
+    padding: 12px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.flash.success {
+    background: #e8f5e9;
+    color: #2e7d32;
+    border-left: 4px solid #2e7d32;
+}
+
+.flash.error {
+    background: #ffebee;
+    color: #c62828;
+    border-left: 4px solid #c62828;
+}
+
+.flash.info {
+    background: #e3f2fd;
+    color: #1565c0;
+    border-left: 4px solid #1565c0;
+}
