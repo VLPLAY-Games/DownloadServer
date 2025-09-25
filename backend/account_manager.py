@@ -2,7 +2,7 @@ import json
 import os
 import hashlib
 from functools import wraps
-from flask import session, redirect, request
+from flask import session, redirect
 
 class AccountManager:
     def __init__(self, users_file='users.json'):
