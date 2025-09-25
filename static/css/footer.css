@@ -1,0 +1,22 @@
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    margin-top: 40px; 
+    padding: 20px 0; 
+    text-align: center; 
+    color: #666; 
+    border-top: 1px solid #eee;
+}
+
+.footer_div {
+    max-width: 1000px; 
+    margin: 0 auto;
+    display: inline-flex;
+}
+
+.footer_text_main {
+    margin: 0; 
+    font-size: 14px;
+}

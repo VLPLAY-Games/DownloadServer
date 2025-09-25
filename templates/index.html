@@ -5,15 +5,16 @@
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='icons/favicon.ico') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
     <script src="{{ url_for('static', filename='js/translation_main.js') }}"></script>
     <script src="{{ url_for('static', filename='js/language.js') }}"></script>
     <script src="{{ url_for('static', filename='js/status_updater.js') }}"></script>
     <script src="{{ url_for('static', filename='js/helper.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/config.js') }}"></script>
 </head>
 <body>
     <header>
         <div>
-            <!-- Обновленные кнопки аккаунта -->
             {% if session.get('username') %}
             <div class="account-dropdown">
                 <button id="accountToggle" class="account_but" type="button" aria-haspopup="true" aria-expanded="false"
@@ -186,5 +187,11 @@
             </div>
         {% endif %}
     </div>
+
+    <footer>
+        <div class="footer_div">
+            <p class="footer_text_main" id="footer_text"></p>
+        </div>
+    </footer>
 </body>
 </html>
