@@ -1,7 +1,7 @@
 # VL_PLAY Gamesのダウンロードマネージャー
 
-- [ロシア語で読む](README.ru.md)
-- [英語で読む](README.md)
+- [Read in Russian](README.ru.md)
+- [Read in English](README.md)
 
 リアルタイムの進行状況トラッキングと使いやすいインターフェースを備えた最新のWebベースのダウンロードマネージャー。
 
