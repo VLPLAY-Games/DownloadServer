@@ -1,6 +1,6 @@
 # Менеджер загрузок от VL_PLAY Games
 
-- [Read in English](README.en.md)
+- [Read in English](README.md)
 - [Read in Japanese](README.ja.md)
 
 Современный веб-менеджер загрузок с отображением прогресса в реальном времени и удобным интерфейсом.
